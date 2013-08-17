@@ -3,12 +3,11 @@ import 'dart:html';
 DivElement touchEvents;
 
 onTouchCancel(TouchEvent event) {
-  print("onTouchCancel: ${event.toString()}");
   StringBuffer sb = new StringBuffer();
   TouchList touches = event.touches;
   if (touches != null) {
     sb.write("onTouchCancel: ");
-    sb.write("touches.length ${touches.length}");
+    sb.write("touches.length ${touches.length} ");
     if (touches.length > 0) {
       Touch touch = touches.first;
       sb.write("page.x = ${touch.page.x}, page.y = ${touch.page.y}");
@@ -16,15 +15,15 @@ onTouchCancel(TouchEvent event) {
   }
 
   touchEvents.innerHtml = "${touchEvents.innerHtml} ${sb.toString()} <br/>";
+  print("onTouchCancel: ${sb.toString()}");
 }
 
 onTouchEnd(TouchEvent event) {
-  print("onTouchEnd: ${event.toString()}");
   StringBuffer sb = new StringBuffer();
   TouchList touches = event.touches;
   if (touches != null) {
     sb.write("onTouchEnd: ");
-    sb.write("touches.length ${touches.length}");
+    sb.write("touches.length ${touches.length} ");
     if (touches.length > 0) {
       Touch touch = touches.first;
       sb.write("page.x = ${touch.page.x}, page.y = ${touch.page.y}");
@@ -32,15 +31,15 @@ onTouchEnd(TouchEvent event) {
   }
 
   touchEvents.innerHtml = "${touchEvents.innerHtml} ${sb.toString()} <br/>";
+  print("onTouchEnd: ${sb.toString()}");
 }
 
 onTouchMove(TouchEvent event) {
-  print("onTouchMove: ${event.toString()}");
   StringBuffer sb = new StringBuffer();
   TouchList touches = event.touches;
   if (touches != null) {
     sb.write("onTouchMove: ");
-    sb.write("touches.length ${touches.length}");
+    sb.write("touches.length ${touches.length} ");
     if (touches.length > 0) {
       Touch touch = touches.first;
       sb.write("page.x = ${touch.page.x}, page.y = ${touch.page.y}");
@@ -48,15 +47,15 @@ onTouchMove(TouchEvent event) {
   }
 
   touchEvents.innerHtml = "${touchEvents.innerHtml} ${sb.toString()} <br/>";
+  print("onTouchMove: ${sb.toString()}");
 }
 
 onTouchStart(TouchEvent event) {
-  print("onTouchStart: ${event.toString()}");
   StringBuffer sb = new StringBuffer();
   TouchList touches = event.touches;
   if (touches != null) {
     sb.write("onTouchStart: ");
-    sb.write("touches.length ${touches.length}");
+    sb.write("touches.length ${touches.length} ");
     if (touches.length > 0) {
       Touch touch = touches.first;
       sb.write("page.x = ${touch.page.x}, page.y = ${touch.page.y}");
@@ -64,6 +63,7 @@ onTouchStart(TouchEvent event) {
   }
 
   touchEvents.innerHtml = "${touchEvents.innerHtml} ${sb.toString()} <br/>";
+  print("onTouchStart: ${sb.toString()}");
 }
 
 void main() {

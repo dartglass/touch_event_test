@@ -15,15 +15,15 @@ var $$ = {};
 
 // Native classes
 // Bound closures
-$$.BoundClosure$1 = {"": "BoundClosure;_self,_liblib2$_target,_receiver",
+$$.BoundClosure$1 = {"": "BoundClosure;_self,_liblib1$_target,_liblib1$_receiver",
   call$1: function(p0) {
-    return this._self[this._liblib2$_target](p0);
+    return this._self[this._liblib1$_target](p0);
   }
 };
 
-$$.BoundClosure$0 = {"": "BoundClosure;_self,_liblib2$_target,_receiver",
+$$.BoundClosure$0 = {"": "BoundClosure;_self,_liblib1$_target,_liblib1$_receiver",
   call$0: function() {
-    return this._self[this._liblib2$_target]();
+    return this._self[this._liblib1$_target]();
   }
 };
 
@@ -713,7 +713,7 @@ _IsolateContext: {"": "Object;id,ports,isolateStatics<",
   unregister$1: function(portId) {
     var t1 = this.ports;
     t1.remove$1(t1, portId);
-    if (this.ports._liblib1$_length === 0) {
+    if (this.ports._length === 0) {
       t1 = $globalState.isolates;
       t1.remove$1(t1, this.id);
     }
@@ -744,7 +744,7 @@ _EventLoop: {"": "Object;events,activeTimerCount",
     return t1.removeFirst$0();
   },
   checkOpenReceivePortsFromCommandLine$0: function() {
-    if ($globalState.rootContext != null && $globalState.isolates.containsKey$1($globalState.rootContext.id) && $globalState.fromCommandLine === true && $globalState.rootContext.ports._liblib1$_length === 0)
+    if ($globalState.rootContext != null && $globalState.isolates.containsKey$1($globalState.rootContext.id) && $globalState.fromCommandLine === true && $globalState.rootContext.ports._length === 0)
       throw $.wrapException(new $._ExceptionImplementation("Program exited with open ReceivePorts."));
   },
   runIteration$0: function() {
@@ -756,7 +756,7 @@ _EventLoop: {"": "Object;events,activeTimerCount",
       if (t1.isWorker === true) {
         t2 = t1.isolates;
         t2.get$isEmpty;
-        t2 = t2._liblib1$_length === 0 && t1.topEventLoop.activeTimerCount === 0;
+        t2 = t2._length === 0 && t1.topEventLoop.activeTimerCount === 0;
       } else
         t2 = false;
       if (t2) {
@@ -834,7 +834,7 @@ _BaseSendPort: {"": "Object;_isolateId<",
     completer._Completer$0();
     port = $.ReceivePortImpl$();
     this.send$2(message, new $._NativeJsSendPort(port, $globalState.currentContext.id));
-    port._callback = new $._BaseSendPort_call_closure(completer, port);
+    port._liblib3$_callback = new $._BaseSendPort_call_closure(completer, port);
     return completer.future;
   },
   $isSendPort: true
@@ -843,7 +843,7 @@ _BaseSendPort: {"": "Object;_isolateId<",
 _BaseSendPort_call_closure: {"": "Closure;completer_0,port_1",
   call$2: function(value, ignoreReplyTo) {
     var t1 = this.port_1;
-    t1._callback = null;
+    t1._liblib3$_callback = null;
     $globalState.currentContext.unregister$1(t1._id);
     t1 = this.completer_0;
     if (typeof value === "object" && value !== null && !!$.getInterceptor(value).$isException)
@@ -880,7 +880,7 @@ _NativeJsSendPort_send_closure: {"": "Closure;this_1,message_2,replyTo_3",
     isolate = t4.$index(t4, t2.get$_isolateId());
     if (isolate == null)
       return;
-    if (t2.get$_receivePort().get$_callback() == null)
+    if (t2.get$_receivePort().get$_liblib3$_callback() == null)
       return;
     shouldSerialize = $globalState.currentContext != null && $globalState.currentContext.id !== t2.get$_isolateId();
     msg = this.message_2;
@@ -901,14 +901,14 @@ _NativeJsSendPort_send__closure: {"": "Closure;box_0,this_4,shouldSerialize_5",
   call$0: function() {
     var t1, t2;
     t1 = this.this_4;
-    if (t1.get$_receivePort().get$_callback() != null) {
+    if (t1.get$_receivePort().get$_liblib3$_callback() != null) {
       if (this.shouldSerialize_5) {
         t2 = this.box_0;
         t2.msg_0 = $._deserializeMessage(t2.msg_0);
         t2.reply_1 = $._deserializeMessage(t2.reply_1);
       }
       t2 = this.box_0;
-      t1.get$_receivePort()._callback$2(t2.msg_0, t2.reply_1);
+      t1.get$_receivePort()._liblib3$_callback$2(t2.msg_0, t2.reply_1);
     }
   }
 },
@@ -963,9 +963,9 @@ _WorkerSendPort_send_closure: {"": "Closure;this_0,message_1,replyTo_2",
   }
 },
 
-ReceivePortImpl: {"": "Object;_id<,_callback<",
-  _callback$2: function(arg0, arg1) {
-    return this._callback.call$2(arg0, arg1);
+ReceivePortImpl: {"": "Object;_id<,_liblib3$_callback<",
+  _liblib3$_callback$2: function(arg0, arg1) {
+    return this._liblib3$_callback.call$2(arg0, arg1);
   },
   ReceivePortImpl$0: function() {
     $globalState.currentContext.register$2(this._id, this);
@@ -1998,14 +1998,14 @@ DartError_toStringWrapper: function() {
 
 },
 
-TypeErrorDecoder: {"": "Object;_pattern,_arguments,_argumentsExpr,_expr,_method,_receiver",
+TypeErrorDecoder: {"": "Object;_pattern,_liblib1$_arguments,_argumentsExpr,_expr,_method,_liblib1$_receiver",
   matchTypeError$1: function(message) {
     var match, result, t1;
     match = new RegExp(this._pattern).exec(message);
     if (match == null)
       return;
     result = {};
-    t1 = this._arguments;
+    t1 = this._liblib1$_arguments;
     if (t1 !== -1)
       result.arguments = match[t1 + 1];
     t1 = this._argumentsExpr;
@@ -2017,7 +2017,7 @@ TypeErrorDecoder: {"": "Object;_pattern,_arguments,_argumentsExpr,_expr,_method,
     t1 = this._method;
     if (t1 !== -1)
       result.method = match[t1 + 1];
-    t1 = this._receiver;
+    t1 = this._liblib1$_receiver;
     if (t1 !== -1)
       result.receiver = match[t1 + 1];
     return result;
@@ -2112,13 +2112,13 @@ NullError: {"": "Object;_message,_method",
   }
 },
 
-JsNoSuchMethodError: {"": "Object;_message,_method,_receiver",
+JsNoSuchMethodError: {"": "Object;_message,_method,_liblib1$_receiver",
   toString$0: function(_) {
     var t1, t2;
     t1 = this._method;
     if (t1 == null)
       return "NoSuchMethodError: " + $.S(this._message);
-    t2 = this._receiver;
+    t2 = this._liblib1$_receiver;
     if (t2 == null)
       return "NoSuchMethodError: Cannot call \"" + t1 + "\" (" + $.S(this._message) + ")";
     return "NoSuchMethodError: Cannot call \"" + t1 + "\" on \"" + t2 + "\" (" + $.S(this._message) + ")";
@@ -2172,7 +2172,7 @@ Closure: {"": "Object;",
   }
 },
 
-BoundClosure: {"": "Closure;_self,_liblib2$_target,_receiver",
+BoundClosure: {"": "Closure;_self,_liblib1$_target,_liblib1$_receiver",
   $eq: function(_, other) {
     if (other == null)
       return false;
@@ -2180,10 +2180,10 @@ BoundClosure: {"": "Closure;_self,_liblib2$_target,_receiver",
       return true;
     if (typeof other !== "object" || other === null || !$.getInterceptor(other).$isBoundClosure)
       return false;
-    return this._self === other._self && this._liblib2$_target === other._liblib2$_target && this._receiver === other._receiver;
+    return this._self === other._self && this._liblib1$_target === other._liblib1$_target && this._liblib1$_receiver === other._liblib1$_receiver;
   },
   get$hashCode: function(_) {
-    return $.get$hashCode$(this._self) + $.get$hashCode$(this._liblib2$_target) + $.get$hashCode$(this._receiver) & 0x3ffffff;
+    return $.get$hashCode$(this._self) + $.get$hashCode$(this._liblib1$_target) + $.get$hashCode$(this._liblib1$_receiver) & 0x3ffffff;
   },
   $isBoundClosure: true
 },
@@ -2445,7 +2445,7 @@ SubListIterable: {"": "ListIterable;_iterable,_start,_endOrLength",
   }
 },
 
-ListIterator: {"": "Object;_iterable,_length,_index,_liblib$_current",
+ListIterator: {"": "Object;_iterable,_liblib$_length,_index,_liblib$_current",
   get$current: function() {
     return this._liblib$_current;
   },
@@ -2454,7 +2454,7 @@ ListIterator: {"": "Object;_iterable,_length,_index,_liblib$_current",
     t1 = this._iterable;
     t2 = $.getInterceptor$asx(t1);
     $length = t2.get$length(t1);
-    if (!$.$eq(this._length, $length))
+    if (!$.$eq(this._liblib$_length, $length))
       throw $.wrapException(new $.ConcurrentModificationError(t1));
     t3 = this._index;
     if (typeof $length !== "number")
@@ -2498,15 +2498,15 @@ MappedIterator: {"": "Iterator;_liblib$_current,_iterator,_f",
   }
 },
 
-MappedListIterable: {"": "ListIterable;_source,_f",
+MappedListIterable: {"": "ListIterable;_liblib$_source,_f",
   _f$1: function(arg0) {
     return this._f.call$1(arg0);
   },
   get$length: function(_) {
-    return $.get$length$asx(this._source);
+    return $.get$length$asx(this._liblib$_source);
   },
   elementAt$1: function(_, index) {
-    return this._f$1($.elementAt$1$ax(this._source, index));
+    return this._f$1($.elementAt$1$ax(this._liblib$_source, index));
   }
 },
 
@@ -3286,9 +3286,9 @@ StreamSubscription: {"": "Object;"},
 
 EventSink: {"": "Object;"},
 
-_BufferingStreamSubscription: {"": "Object;_liblib3$_onData,_onError,_onDone,_zone<,_state@,_pending",
-  _liblib3$_onData$1: function(arg0) {
-    return this._liblib3$_onData.call$1(arg0);
+_BufferingStreamSubscription: {"": "Object;_liblib2$_onData,_onError,_onDone,_zone<,_state@,_pending",
+  _liblib2$_onData$1: function(arg0) {
+    return this._liblib2$_onData.call$1(arg0);
   },
   _onError$1: function(arg0) {
     return this._onError.call$1(arg0);
@@ -3372,7 +3372,7 @@ _BufferingStreamSubscription: {"": "Object;_liblib3$_onData,_onError,_onDone,_zo
         t1._state = 3;
     }
   },
-  _liblib3$_add$1: function(data) {
+  _liblib2$_add$1: function(data) {
     var t1 = this._state;
     if ((t1 & 8) !== 0)
       return;
@@ -3511,7 +3511,7 @@ _BufferingStreamSubscription: {"": "Object;_liblib3$_onData,_onError,_onDone,_zo
 
 _BufferingStreamSubscription__sendData_closure: {"": "Closure;this_0,data_1",
   call$0: function() {
-    return this.this_0._liblib3$_onData$1(this.data_1);
+    return this.this_0._liblib2$_onData$1(this.data_1);
   }
 },
 
@@ -3612,15 +3612,15 @@ _ForwardingStream: {"": "Stream;",
     return this.listen$4$cancelOnError$onDone$onError(onData, null, onDone, onError);
   },
   _handleData$2: function(data, sink) {
-    sink._liblib3$_add$1(data);
+    sink._liblib2$_add$1(data);
   }
 },
 
-_ForwardingStreamSubscription: {"": "_BufferingStreamSubscription;_stream,_subscription,_liblib3$_onData,_onError,_onDone,_zone,_state,_pending",
-  _liblib3$_add$1: function(data) {
+_ForwardingStreamSubscription: {"": "_BufferingStreamSubscription;_stream,_subscription,_liblib2$_onData,_onError,_onDone,_zone,_state,_pending",
+  _liblib2$_add$1: function(data) {
     if ((this._state & 2) !== 0)
       return;
-    $._BufferingStreamSubscription.prototype._liblib3$_add$1.call(this, data);
+    $._BufferingStreamSubscription.prototype._liblib2$_add$1.call(this, data);
   },
   _addError$1: function(error) {
     if ((this._state & 2) !== 0)
@@ -3674,7 +3674,7 @@ _ForwardingStreamSubscription: {"": "_BufferingStreamSubscription;_stream,_subsc
     var t1, t2;
     t1 = this.get$_handleData();
     t2 = this.get$_handleError();
-    this._subscription = this._stream._liblib3$_source.listen$3$onDone$onError(t1, this.get$_handleDone(), t2);
+    this._subscription = this._stream._source.listen$3$onDone$onError(t1, this.get$_handleDone(), t2);
   },
   static: {
 _ForwardingStreamSubscription$: function(_stream, onData, onError, onDone, cancelOnError) {
@@ -3689,7 +3689,7 @@ _ForwardingStreamSubscription$: function(_stream, onData, onError, onDone, cance
 
 },
 
-_WhereStream: {"": "_ForwardingStream;_test,_liblib3$_source",
+_WhereStream: {"": "_ForwardingStream;_test,_source",
   _test$1: function(arg0) {
     return this._test.call$1(arg0);
   },
@@ -3707,11 +3707,11 @@ _WhereStream: {"": "_ForwardingStream;_test,_liblib3$_source",
     }
 
     if (satisfies === true)
-      sink._liblib3$_add$1(inputEvent);
+      sink._liblib2$_add$1(inputEvent);
   }
 },
 
-_MapStream: {"": "_ForwardingStream;_transform,_liblib3$_source",
+_MapStream: {"": "_ForwardingStream;_transform,_source",
   _transform$1: function(arg0) {
     return this._transform.call$1(arg0);
   },
@@ -3728,11 +3728,11 @@ _MapStream: {"": "_ForwardingStream;_transform,_liblib3$_source",
       return;
     }
 
-    sink._liblib3$_add$1(outputEvent);
+    sink._liblib2$_add$1(outputEvent);
   }
 },
 
-_SkipStream: {"": "_ForwardingStream;_remaining,_liblib3$_source",
+_SkipStream: {"": "_ForwardingStream;_remaining,_source",
   _handleData$2: function(inputEvent, sink) {
     var t1, t2;
     t1 = this._remaining;
@@ -3741,7 +3741,7 @@ _SkipStream: {"": "_ForwardingStream;_remaining,_liblib3$_source",
       this._remaining = t2.$sub(t1, 1);
       return;
     }
-    return sink._liblib3$_add$1(inputEvent);
+    return sink._liblib2$_add$1(inputEvent);
   }
 },
 
@@ -3827,11 +3827,11 @@ _DefaultZone_runAsync_closure: {"": "Closure;f_0,zone_1",
   }
 },
 
-_ZoneTimer: {"": "Object;_zone<,_liblib3$_callback,_timer",
+_ZoneTimer: {"": "Object;_zone<,_callback,_timer",
   _run$0: function() {
     var t1 = this._zone;
     t1._openCallbacks = t1._openCallbacks - 1;
-    t1._runInZone$2(this._liblib3$_callback, true);
+    t1._runInZone$2(this._callback, true);
   },
   get$_run: function() {
     return new $.BoundClosure$0(this, "_run$0", null);
@@ -3872,7 +3872,7 @@ HashMap_values_closure: {"": "Closure;this_0",
 
 HashMapKeyIterable: {"": "IterableBase;_map",
   get$length: function(_) {
-    return this._map._liblib1$_length;
+    return this._map._length;
   },
   get$iterator: function(_) {
     var t1 = this._map;
@@ -3922,7 +3922,7 @@ LinkedHashMapCell: {"": "Object;_key<,_value@,_next?,_previous"},
 
 LinkedHashMapKeyIterable: {"": "IterableBase;_map",
   get$length: function(_) {
-    return this._map._liblib1$_length;
+    return this._map._length;
   },
   get$iterator: function(_) {
     var t1 = this._map;
@@ -3966,9 +3966,9 @@ LinkedHashMapKeyIterator: {"": "Object;_map,_modifications,_cell,_current",
   }
 },
 
-HashMap: {"": "Object;_liblib1$_length,_strings,_nums,_rest,_keys",
+HashMap: {"": "Object;_length,_strings,_nums,_rest,_keys",
   get$length: function(_) {
-    return this._liblib1$_length;
+    return this._length;
   },
   get$keys: function() {
     return new $.HashMapKeyIterable(this);
@@ -4035,7 +4035,7 @@ HashMap: {"": "Object;_liblib1$_length,_strings,_nums,_rest,_keys",
         strings = table;
       }
       if (strings[key] == null) {
-        this._liblib1$_length = this._liblib1$_length + 1;
+        this._length = this._length + 1;
         this._keys = null;
       }
       if (value == null)
@@ -4055,7 +4055,7 @@ HashMap: {"": "Object;_liblib1$_length,_strings,_nums,_rest,_keys",
         nums = table;
       }
       if (nums[key] == null) {
-        this._liblib1$_length = this._liblib1$_length + 1;
+        this._length = this._length + 1;
         this._keys = null;
       }
       if (value == null)
@@ -4082,7 +4082,7 @@ HashMap: {"": "Object;_liblib1$_length,_strings,_nums,_rest,_keys",
           rest[hash] = rest;
         else
           rest[hash] = t1;
-        this._liblib1$_length = this._liblib1$_length + 1;
+        this._length = this._length + 1;
         this._keys = null;
       } else {
         index = $.HashMap__findBucketIndex(bucket, key);
@@ -4090,7 +4090,7 @@ HashMap: {"": "Object;_liblib1$_length,_strings,_nums,_rest,_keys",
           bucket[index + 1] = value;
         else {
           bucket.push(key, value);
-          this._liblib1$_length = this._liblib1$_length + 1;
+          this._length = this._length + 1;
           this._keys = null;
         }
       }
@@ -4110,7 +4110,7 @@ HashMap: {"": "Object;_liblib1$_length,_strings,_nums,_rest,_keys",
       index = $.HashMap__findBucketIndex(bucket, key);
       if (index < 0)
         return;
-      this._liblib1$_length = this._liblib1$_length - 1;
+      this._length = this._length - 1;
       this._keys = null;
       return bucket.splice(index, 2)[1];
     }
@@ -4133,7 +4133,7 @@ HashMap: {"": "Object;_liblib1$_length,_strings,_nums,_rest,_keys",
     t1 = this._keys;
     if (t1 != null)
       return t1;
-    result = $.List_List(this._liblib1$_length);
+    result = $.List_List(this._length);
     strings = this._strings;
     if (strings != null) {
       names = Object.getOwnPropertyNames(strings);
@@ -4174,7 +4174,7 @@ HashMap: {"": "Object;_liblib1$_length,_strings,_nums,_rest,_keys",
     if (table != null && table[key] != null) {
       value = $.HashMap__getTableEntry(table, key);
       delete table[key];
-      this._liblib1$_length = this._liblib1$_length - 1;
+      this._length = this._length - 1;
       this._keys = null;
       return value;
     } else
@@ -4242,7 +4242,7 @@ IterableBase: {"": "Object;",
   }
 },
 
-LinkedHashMap: {"": "Object;_liblib1$_length,_strings,_nums,_rest,_first,_last,_modifications",
+LinkedHashMap: {"": "Object;_length,_strings,_nums,_rest,_first,_last,_modifications",
   $index: function(_, key) {
     var strings, cell, nums, rest, bucket, index;
     if (typeof key === "string" && key !== "__proto__") {
@@ -4338,7 +4338,7 @@ LinkedHashMap: {"": "Object;_liblib1$_length,_strings,_nums,_rest,_first,_last,_
     return new $.MappedIterable(new $.LinkedHashMapKeyIterable(this), new $.LinkedHashMap_values_closure(this));
   },
   get$length: function(_) {
-    return this._liblib1$_length;
+    return this._length;
   },
   toString$0: function(_) {
     return $.Maps_mapToString(this);
@@ -4355,7 +4355,7 @@ LinkedHashMap: {"": "Object;_liblib1$_length,_strings,_nums,_rest,_first,_last,_
       last.set$_next(cell);
       this._last = cell;
     }
-    this._liblib1$_length = this._liblib1$_length + 1;
+    this._length = this._length + 1;
     this._modifications = this._modifications + 1 & 67108863;
     return cell;
   },
@@ -4796,13 +4796,13 @@ AbstractClassInstantiationError: {"": "Error;_className",
   }
 },
 
-NoSuchMethodError: {"": "Error;_liblib4$_receiver,_memberName,_liblib4$_arguments,_namedArguments,_existingArgumentNames",
+NoSuchMethodError: {"": "Error;_receiver,_memberName,_arguments,_namedArguments,_existingArgumentNames",
   toString$0: function(_) {
     var t1, t2, t3, t4, actualParameters, i, str, formalParameters;
     t1 = {};
     t1.sb_0 = $.StringBuffer$("");
     t1.i_1 = 0;
-    t2 = this._liblib4$_arguments;
+    t2 = this._arguments;
     if (typeof t2 !== "string" && (typeof t2 !== "object" || t2 === null || t2.constructor !== Array && !$.isJsIndexable(t2, t2[$.dispatchPropertyName])))
       return this.toString$0$bailout1(1, t1, t2);
     for (; t3 = t1.i_1, $.$lt$n(t3, t2.length); t1.i_1 = $.$add$ns(t1.i_1, 1)) {
@@ -4839,7 +4839,7 @@ NoSuchMethodError: {"": "Error;_liblib4$_receiver,_memberName,_liblib4$_argument
     }
     formalParameters = t1.sb_0._contents;
     t1 = this._memberName;
-    return "NoSuchMethodError: incorrect number of arguments passed to method named '" + $.S(t1) + "'\nReceiver: " + $.Error_safeToString(this._liblib4$_receiver) + "\nTried calling: " + $.S(t1) + "(" + actualParameters + ")\nFound: " + $.S(t1) + "(" + formalParameters + ")";
+    return "NoSuchMethodError: incorrect number of arguments passed to method named '" + $.S(t1) + "'\nReceiver: " + $.Error_safeToString(this._receiver) + "\nTried calling: " + $.S(t1) + "(" + actualParameters + ")\nFound: " + $.S(t1) + "(" + formalParameters + ")";
   },
   toString$0$bailout1: function(state0, t1, t2) {
     switch (state0) {
@@ -4847,7 +4847,7 @@ NoSuchMethodError: {"": "Error;_liblib4$_receiver,_memberName,_liblib4$_argument
         t1 = {};
         t1.sb_0 = $.StringBuffer$("");
         t1.i_1 = 0;
-        t2 = this._liblib4$_arguments;
+        t2 = this._arguments;
       case 1:
         state0 = 0;
         if (t2 != null)
@@ -4868,7 +4868,7 @@ NoSuchMethodError: {"": "Error;_liblib4$_receiver,_memberName,_liblib4$_argument
         var t3, t4, t5, actualParameters, i, str, formalParameters;
         state0 = 0;
         if (t2 == null)
-          return "NoSuchMethodError : method not found: '" + $.S(this._memberName) + "'\nReceiver: " + $.Error_safeToString(this._liblib4$_receiver) + "\nArguments: [" + $.S(t1.sb_0) + "]";
+          return "NoSuchMethodError : method not found: '" + $.S(this._memberName) + "'\nReceiver: " + $.Error_safeToString(this._receiver) + "\nArguments: [" + $.S(t1.sb_0) + "]";
         else {
           actualParameters = t1.sb_0._contents;
           t1.sb_0 = $.StringBuffer$("");
@@ -4892,7 +4892,7 @@ NoSuchMethodError: {"": "Error;_liblib4$_receiver,_memberName,_liblib4$_argument
           }
           formalParameters = t1.sb_0._contents;
           t1 = this._memberName;
-          return "NoSuchMethodError: incorrect number of arguments passed to method named '" + $.S(t1) + "'\nReceiver: " + $.Error_safeToString(this._liblib4$_receiver) + "\nTried calling: " + $.S(t1) + "(" + actualParameters + ")\nFound: " + $.S(t1) + "(" + formalParameters + ")";
+          return "NoSuchMethodError: incorrect number of arguments passed to method named '" + $.S(t1) + "'\nReceiver: " + $.Error_safeToString(this._receiver) + "\nTried calling: " + $.S(t1) + "(" + actualParameters + ")\nFound: " + $.S(t1) + "(" + formalParameters + ")";
         }
     }
   }
@@ -5853,14 +5853,12 @@ DocsEditable: {"": "Object;"},
 Unstable: {"": "Object;"}}],
 ["touch_event_test.dart", "touch_event_test.dart", , {
 onTouchCancel: function($event) {
-  var t1, sb, touches, touch, t2;
-  t1 = $.getInterceptor($event);
-  $.Primitives_printString("onTouchCancel: " + $.S(t1.toString$0($event)));
+  var sb, touches, touch, t1, t2;
   sb = $.StringBuffer$("");
-  touches = t1.get$touches($event);
+  touches = $.get$touches$x($event);
   if (touches != null) {
     sb.write$1("onTouchCancel: ");
-    sb.write$1("touches.length " + touches.length);
+    sb.write$1("touches.length " + touches.length + " ");
     if (touches.length > 0) {
       touch = $.get$first$ax(touches);
       sb.write$1("page.x = " + $.S(new $.Point(touch.pageX, touch.pageY).x) + ", page.y = " + $.S(new $.Point(touch.pageX, touch.pageY).y));
@@ -5869,17 +5867,16 @@ onTouchCancel: function($event) {
   t1 = $.touchEvents;
   t2 = $.getInterceptor$x(t1);
   t2.set$innerHtml(t1, $.S(t2.get$innerHtml(t1)) + " " + sb._contents + " <br/>");
+  $.Primitives_printString("onTouchCancel: " + sb._contents);
 },
 
 onTouchEnd: function($event) {
-  var t1, sb, touches, touch, t2;
-  t1 = $.getInterceptor($event);
-  $.Primitives_printString("onTouchEnd: " + $.S(t1.toString$0($event)));
+  var sb, touches, touch, t1, t2;
   sb = $.StringBuffer$("");
-  touches = t1.get$touches($event);
+  touches = $.get$touches$x($event);
   if (touches != null) {
     sb.write$1("onTouchEnd: ");
-    sb.write$1("touches.length " + touches.length);
+    sb.write$1("touches.length " + touches.length + " ");
     if (touches.length > 0) {
       touch = $.get$first$ax(touches);
       sb.write$1("page.x = " + $.S(new $.Point(touch.pageX, touch.pageY).x) + ", page.y = " + $.S(new $.Point(touch.pageX, touch.pageY).y));
@@ -5888,17 +5885,16 @@ onTouchEnd: function($event) {
   t1 = $.touchEvents;
   t2 = $.getInterceptor$x(t1);
   t2.set$innerHtml(t1, $.S(t2.get$innerHtml(t1)) + " " + sb._contents + " <br/>");
+  $.Primitives_printString("onTouchEnd: " + sb._contents);
 },
 
 onTouchMove: function($event) {
-  var t1, sb, touches, touch, t2;
-  t1 = $.getInterceptor($event);
-  $.Primitives_printString("onTouchMove: " + $.S(t1.toString$0($event)));
+  var sb, touches, touch, t1, t2;
   sb = $.StringBuffer$("");
-  touches = t1.get$touches($event);
+  touches = $.get$touches$x($event);
   if (touches != null) {
     sb.write$1("onTouchMove: ");
-    sb.write$1("touches.length " + touches.length);
+    sb.write$1("touches.length " + touches.length + " ");
     if (touches.length > 0) {
       touch = $.get$first$ax(touches);
       sb.write$1("page.x = " + $.S(new $.Point(touch.pageX, touch.pageY).x) + ", page.y = " + $.S(new $.Point(touch.pageX, touch.pageY).y));
@@ -5907,6 +5903,7 @@ onTouchMove: function($event) {
   t1 = $.touchEvents;
   t2 = $.getInterceptor$x(t1);
   t2.set$innerHtml(t1, $.S(t2.get$innerHtml(t1)) + " " + sb._contents + " <br/>");
+  $.Primitives_printString("onTouchMove: " + sb._contents);
 },
 
 main: function() {
@@ -6138,6 +6135,9 @@ $.get$iterator$ax = function(receiver) {
 };
 $.get$length$asx = function(receiver) {
   return $.getInterceptor$asx(receiver).get$length(receiver);
+};
+$.get$touches$x = function(receiver) {
+  return $.getInterceptor$x(receiver).get$touches(receiver);
 };
 $.remove$0$ax = function(receiver) {
   return $.getInterceptor$ax(receiver).remove$0(receiver);
