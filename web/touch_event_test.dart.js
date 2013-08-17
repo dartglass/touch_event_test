@@ -63,6 +63,8 @@ $$.Closure$onTouchEnd = {"": "Closure;call$1,$name"};
 
 $$.Closure$onTouchMove = {"": "Closure;call$1,$name"};
 
+$$.Closure$onTouchStart = {"": "Closure;call$1,$name"};
+
 $$.Closure$main = {"": "Closure;call$0,$name"};
 
 (function (reflectionData) {
@@ -5294,6 +5296,31 @@ Point: {"": "Object;x>,y>",
   $isPoint: true
 },
 
+RectBase: {"": "Object;",
+  toString$0: function(_) {
+    return "(" + $.S(this.get$left()) + ", " + $.S(this.get$top(this)) + ", " + $.S(this.get$width(this)) + ", " + $.S(this.get$height(this)) + ")";
+  },
+  $eq: function(_, other) {
+    if (other == null)
+      return false;
+    if (typeof other !== "object" || other === null || !$.getInterceptor(other).$isRect)
+      return false;
+    return $.$eq(this.get$left(), other.left) && $.$eq(this.get$top(this), other.top) && $.$eq(this.get$width(this), other.width) && $.$eq(this.get$height(this), other.height);
+  },
+  get$hashCode: function(_) {
+    var t1, t2, t3, t4;
+    t1 = $.get$hashCode$(this.get$left());
+    t2 = $.get$hashCode$(this.get$top(this));
+    t3 = $.get$hashCode$(this.get$width(this));
+    t4 = $.get$hashCode$(this.get$height(this));
+    return $.JenkinsSmiHash_finish($.JenkinsSmiHash_combine($.JenkinsSmiHash_combine($.JenkinsSmiHash_combine($.JenkinsSmiHash_combine(0, t1), t2), t3), t4));
+  }
+},
+
+Rect: {"": "RectBase;left<,top>,width>,height>", $isRect: true},
+
+_DOMWindowCrossFrame: {"": "Object;_window"},
+
 FixedSizeListIterator: {"": "Object;_array,_liblib0$_length,_liblib0$_position,_liblib0$_current",
   moveNext$0: function() {
     var t1, nextPosition;
@@ -5394,6 +5421,9 @@ Element: {"": "Node;innerHtml:innerHTML%,$$dom_children:children=",
   get$children: function(receiver) {
     return new $._ChildrenElementList(receiver, this.get$$$dom_children(receiver));
   },
+  get$client: function(receiver) {
+    return new $.Rect(receiver.clientLeft, receiver.clientTop, receiver.clientWidth, receiver.clientHeight);
+  },
   toString$0: function(receiver) {
     return receiver.localName;
   },
@@ -5401,7 +5431,11 @@ Element: {"": "Node;innerHtml:innerHTML%,$$dom_children:children=",
   $asElement: null
 },
 
-Event: {"": "Interceptor;"},
+Event: {"": "Interceptor;",
+  stopPropagation$0: function(receiver) {
+    return receiver.stopPropagation();
+  }
+},
 
 EventTarget: {"": "Interceptor;"},
 
@@ -5439,6 +5473,12 @@ HtmlCollection: {"": "Interceptor_ListMixin_ImmutableListMixin;",
 ImageElement: {"": "_HTMLElement;x=,y="},
 
 InputElement: {"": "_HTMLElement;", $isElement: true, $asElement: null},
+
+MouseEvent: {"": "UIEvent;",
+  get$client: function(receiver) {
+    return new $.Point(receiver.clientX, receiver.clientY);
+  }
+},
 
 Node: {"": "EventTarget;",
   get$nodes: function(receiver) {
@@ -5518,6 +5558,15 @@ ShadowRoot: {"": "DocumentFragment;innerHtml:innerHTML%",
   }
 },
 
+Touch: {"": "Interceptor;",
+  get$client: function(receiver) {
+    return new $.Point(receiver.clientX, receiver.clientY);
+  },
+  get$page: function(receiver) {
+    return new $.Point(receiver.pageX, receiver.pageY);
+  }
+},
+
 TouchEvent: {"": "UIEvent;touches="},
 
 TouchList: {"": "Interceptor_ListMixin_ImmutableListMixin1;",
@@ -5554,7 +5603,11 @@ TouchList: {"": "Interceptor_ListMixin_ImmutableListMixin1;",
   $isJavaScriptIndexingBehavior: true
 },
 
-UIEvent: {"": "Event;"},
+UIEvent: {"": "Event;",
+  get$page: function(receiver) {
+    return new $.Point(receiver.pageX, receiver.pageY);
+  }
+},
 
 Window: {"": "EventTarget;",
   toString$0: function(receiver) {
@@ -5889,11 +5942,33 @@ onTouchEnd: function($event) {
 },
 
 onTouchMove: function($event) {
+  var sb, t1, touches, t2, touch, t3;
+  sb = $.StringBuffer$("");
+  t1 = $.getInterceptor$x($event);
+  touches = t1.get$touches($event);
+  if (touches != null) {
+    sb.write$1("onTouchMove: ");
+    sb.write$1("touches.length " + touches.length + " ");
+    t2 = touches.length;
+    if (t2 === 1) {
+      touch = $.get$first$ax(touches);
+      sb.write$1("page.x = " + $.S(new $.Point(touch.pageX, touch.pageY).x) + ", page.y = " + $.S(new $.Point(touch.pageX, touch.pageY).y));
+    } else if (t2 > 1)
+      $.forEach$1$ax(touches, new $.onTouchMove_closure(sb));
+  }
+  t2 = $.touchEvents;
+  t3 = $.getInterceptor$x(t2);
+  t3.set$innerHtml(t2, $.S(t3.get$innerHtml(t2)) + " " + sb._contents + " <br/>");
+  $.Primitives_printString("onTouchMove: " + sb._contents);
+  t1.stopPropagation$0($event);
+},
+
+onTouchStart: function($event) {
   var sb, touches, touch, t1, t2;
   sb = $.StringBuffer$("");
   touches = $.get$touches$x($event);
   if (touches != null) {
-    sb.write$1("onTouchMove: ");
+    sb.write$1("onTouchStart: ");
     sb.write$1("touches.length " + touches.length + " ");
     if (touches.length > 0) {
       touch = $.get$first$ax(touches);
@@ -5903,7 +5978,7 @@ onTouchMove: function($event) {
   t1 = $.touchEvents;
   t2 = $.getInterceptor$x(t1);
   t2.set$innerHtml(t1, $.S(t2.get$innerHtml(t1)) + " " + sb._contents + " <br/>");
-  $.Primitives_printString("onTouchMove: " + sb._contents);
+  $.Primitives_printString("onTouchStart: " + sb._contents);
 },
 
 main: function() {
@@ -5924,7 +5999,20 @@ main: function() {
   t1 = window;
   $.EventStreamProvider_touchstart.forTarget$2$useCapture;
   t1 = new $._EventStream(t1, $.EventStreamProvider_touchstart._eventType, false);
-  new $._EventStreamSubscription(0, t1._target, t1._eventType, $.onTouchMove$closure, t1._useCapture)._tryResume$0();
+  new $._EventStreamSubscription(0, t1._target, t1._eventType, $.onTouchStart$closure, t1._useCapture)._tryResume$0();
+},
+
+onTouchMove_closure: {"": "Closure;sb_0",
+  call$1: function(touch) {
+    var t1, t2, t3;
+    t1 = this.sb_0;
+    t2 = $.getInterceptor$x(touch);
+    t1.write$1("[page.x = " + $.S(t2.get$page(touch).x) + ", page.y = " + $.S(t2.get$page(touch).y) + "], ");
+    t3 = t2.get$client(touch);
+    t3 = "[client.x = " + $.S(t3.get$x(t3)) + ", client.y = ";
+    t2 = t2.get$client(touch);
+    t1.write$1(t3 + $.S(t2.get$y(t2)) + "], ");
+  }
 }},
 1],
 ]);
@@ -5949,6 +6037,7 @@ $._nullDoneHandler$closure = new $.Closure$_nullDoneHandler($._nullDoneHandler, 
 $.onTouchCancel$closure = new $.Closure$onTouchCancel($.onTouchCancel, "onTouchCancel$closure");
 $.onTouchEnd$closure = new $.Closure$onTouchEnd($.onTouchEnd, "onTouchEnd$closure");
 $.onTouchMove$closure = new $.Closure$onTouchMove($.onTouchMove, "onTouchMove$closure");
+$.onTouchStart$closure = new $.Closure$onTouchStart($.onTouchStart, "onTouchStart$closure");
 $.main$closure = new $.Closure$main($.main, "main$closure");
 $.getInterceptor = function(receiver) {
   if (typeof receiver == "number") {
@@ -6218,7 +6307,7 @@ Isolate.$lazy($, "_toStringList", "Maps__toStringList", "get$Maps__toStringList"
   return $.List_List(null);
 });
 // Native classes
-$.defineNativeMethods("DOMError|FileError|MediaError|MediaKeyError|Navigator|NavigatorUserMediaError|PositionError|SQLError|SVGAnimatedLength|SVGAnimatedLengthList|SVGAnimatedNumber|SVGAnimatedNumberList|Touch", $.Interceptor);
+$.defineNativeMethods("DOMError|FileError|MediaError|MediaKeyError|Navigator|NavigatorUserMediaError|PositionError|SQLError|SVGAnimatedLength|SVGAnimatedLengthList|SVGAnimatedNumber|SVGAnimatedNumberList", $.Interceptor);
 
 $.defineNativeMethods("HTMLAreaElement|HTMLAudioElement|HTMLBRElement|HTMLBaseElement|HTMLBodyElement|HTMLButtonElement|HTMLCanvasElement|HTMLContentElement|HTMLDListElement|HTMLDataListElement|HTMLDetailsElement|HTMLDialogElement|HTMLDivElement|HTMLEmbedElement|HTMLFieldSetElement|HTMLHRElement|HTMLHeadElement|HTMLHeadingElement|HTMLHtmlElement|HTMLIFrameElement|HTMLKeygenElement|HTMLLIElement|HTMLLabelElement|HTMLLegendElement|HTMLLinkElement|HTMLMapElement|HTMLMediaElement|HTMLMenuElement|HTMLMetaElement|HTMLMeterElement|HTMLModElement|HTMLOListElement|HTMLObjectElement|HTMLOptGroupElement|HTMLOptionElement|HTMLOutputElement|HTMLParagraphElement|HTMLParamElement|HTMLPreElement|HTMLProgressElement|HTMLQuoteElement|HTMLScriptElement|HTMLShadowElement|HTMLSourceElement|HTMLSpanElement|HTMLStyleElement|HTMLTableCaptionElement|HTMLTableCellElement|HTMLTableColElement|HTMLTableDataCellElement|HTMLTableElement|HTMLTableHeaderCellElement|HTMLTableRowElement|HTMLTableSectionElement|HTMLTemplateElement|HTMLTextAreaElement|HTMLTitleElement|HTMLTrackElement|HTMLUListElement|HTMLUnknownElement|HTMLVideoElement", $._HTMLElement);
 
@@ -6248,6 +6337,8 @@ $.defineNativeMethods("HTMLImageElement", $.ImageElement);
 
 $.defineNativeMethods("HTMLInputElement", $.InputElement);
 
+$.defineNativeMethods("DragEvent|MouseEvent|MouseScrollEvent|MouseWheelEvent|WheelEvent", $.MouseEvent);
+
 $.defineNativeMethods("Attr|Document|DocumentType|Entity|HTMLDocument|Notation|ProcessingInstruction|SVGDocument", $.Node);
 
 $.defineNativeMethodsNonleaf("Node", $.Node);
@@ -6258,11 +6349,13 @@ $.defineNativeMethods("HTMLSelectElement", $.SelectElement);
 
 $.defineNativeMethods("ShadowRoot", $.ShadowRoot);
 
+$.defineNativeMethods("Touch", $.Touch);
+
 $.defineNativeMethods("TouchEvent", $.TouchEvent);
 
 $.defineNativeMethods("TouchList", $.TouchList);
 
-$.defineNativeMethods("CompositionEvent|DragEvent|FocusEvent|KeyboardEvent|MouseEvent|MouseScrollEvent|MouseWheelEvent|SVGZoomEvent|TextEvent|WheelEvent", $.UIEvent);
+$.defineNativeMethods("CompositionEvent|FocusEvent|KeyboardEvent|SVGZoomEvent|TextEvent", $.UIEvent);
 
 $.defineNativeMethodsNonleaf("UIEvent", $.UIEvent);
 
